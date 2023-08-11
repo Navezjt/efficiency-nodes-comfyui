@@ -1,10 +1,8 @@
 # Efficiency Nodes Utility functions
-
 from torch import Tensor
 import torch
 from PIL import Image
 import numpy as np
-
 import os
 import sys
 import io
@@ -26,8 +24,10 @@ sys.path.append(comfy_dir)
 
 # Import functions from ComfyUI
 import comfy.sd
+from comfy.cli_args import args
+import latent_preview
 
-# Load my version of Comfy functions
+# Load my custom ComfyUI functions
 from tsc_sd import *
 
 # Cache for Efficiency Node models
@@ -39,10 +39,12 @@ loaded_objects = {
 
 # Cache for Ksampler (Efficient) Outputs
 last_helds: dict[str, list] = {
-    "results": [],      # (results, id) # Preview Images, stored as a pil image list
-    "latent": [],       # (latent, id)  # Latent outputs, stored as a latent tensor list
-    "images": [],       # (images, id)  # Image outputs, stored as an image tensor list
-    "vae_decode": [],   # (vae_decode, id) # Used to track wether to vae-decode or not
+    "preview_images": [],      # (preview_images, id) # Preview Images, stored as a pil image list
+    "latent": [],              # (latent, id)         # Latent outputs, stored as a latent tensor list
+    "output_images": [],       # (output_images, id)  # Output Images, stored as an image tensor list
+    "vae_decode_flag": [],     # (vae_decode, id)     # Boolean to track wether vae-decode during Holds
+    "xy_plot_flag": [],        # (xy_plot_flag, id)   # Boolean to track if held images are xy_plot results
+    "xy_plot_image": [],       # (xy_plot_image, id)  # XY Plot image stored as an image tensor
 }
 
 # Tensor to PIL (grabbed from WAS Suite)
@@ -119,7 +121,6 @@ def print_loaded_objects_entries(id=None, prompt=None, show_id=False):
                     print(f"  [{i}] {name_without_ext}")
     if not entries_found:
         print("-")
-
 
 # This function cleans global variables associated with nodes that are no longer detected on UI
 def globals_cleanup(prompt):
@@ -388,7 +389,6 @@ def clear_cache_by_exception(node_id, vae_dict=None, ckpt_dict=None, lora_dict=N
                     if not tuple_item[-1]:
                         loaded_objects[dict_name].remove(tuple_item)
 
-
 # Retrieve the cache number from 'node_settings' json file
 def get_cache_numbers(node_name):
     # Get the directory path of the current file
@@ -412,7 +412,7 @@ def print_last_helds(id=None):
         print(f"Node-specific Last Helds (node_id:{int(id)})")
     else:
         print(f"Global Last Helds:")
-    for key in ["results", "latent", "images", "vae_decode"]:
+    for key in ["preview_images", "latent", "output_images", "vae_decode"]:
         entries_with_id = last_helds[key] if id is None else [entry for entry in last_helds[key] if id == entry[-1]]
         if not entries_with_id:  # If no entries with the chosen ID, print None and skip this key
             continue
@@ -443,3 +443,149 @@ def suppress_output():
     finally:
         sys.stdout = original_stdout
         sys.stderr = original_stderr
+
+# Set global preview_method
+def set_preview_method(method):
+    if method == 'auto' or method == 'LatentPreviewMethod.Auto':
+        args.preview_method = latent_preview.LatentPreviewMethod.Auto
+    elif method == 'latent2rgb' or method == 'LatentPreviewMethod.Latent2RGB':
+        args.preview_method = latent_preview.LatentPreviewMethod.Latent2RGB
+    elif method == 'taesd' or method == 'LatentPreviewMethod.TAESD':
+        args.preview_method = latent_preview.LatentPreviewMethod.TAESD
+    else:
+        args.preview_method = latent_preview.LatentPreviewMethod.NoPreviews
+
+# Extract global preview_method
+def global_preview_method():
+    return args.preview_method
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Auto install Efficiency Nodes Python package dependencies
+import subprocess
+
+# Note: Auto installer targets ComfyUI's python_embedded folder
+
+def install_packages(my_dir):
+    # Compute path to the target site-packages
+    target_dir = os.path.abspath(os.path.join(my_dir, '..', '..', '..', 'python_embeded', 'Lib', 'site-packages'))
+    embedded_python_exe = os.path.abspath(os.path.join(my_dir, '..', '..', '..', 'python_embeded', 'python.exe'))
+
+    # If embedded_python_exe exists, target the installations. Otherwise, go untargeted.
+    use_embedded = os.path.exists(embedded_python_exe)
+
+    # Load packages from requirements.txt
+    with open(os.path.join(my_dir, 'requirements.txt'), 'r') as f:
+        required_packages = [line.strip() for line in f if line.strip()]
+
+    installed_packages = packages(embedded_python_exe if use_embedded else None, versions=False)
+    for pkg in required_packages:
+        if pkg not in installed_packages:
+            print(f"\033[32mEfficiency Nodes:\033[0m Installing required package '{pkg}'...", end='', flush=True)
+            if use_embedded:  # Targeted installation
+                subprocess.check_call(['pip', 'install', pkg, '--target=' + target_dir, '--no-warn-script-location',
+                                       '--disable-pip-version-check'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            else:  # Untargeted installation
+                subprocess.check_call(['pip', 'install', pkg], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            print(f"\r\033[32mEfficiency Nodes:\033[0m Installing required package '{pkg}'... Installed!", flush=True)
+
+def packages(python_exe=None, versions=False):
+    # Get packages of the active or embedded Python environment
+    if python_exe:
+        return [(r.decode().split('==')[0] if not versions else r.decode()) for r in
+                subprocess.check_output([python_exe, '-m', 'pip', 'freeze']).split()]
+    else:
+        return [(r.split('==')[0] if not versions else r) for r in subprocess.getoutput('pip freeze').splitlines()]
+
+# Install missing packages
+install_packages(my_dir)
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Auto install efficiency nodes web extension '\js\efficiency_nodes.js' to 'ComfyUI\web\extensions'
+import shutil
+
+# Source and destination paths
+source_path = os.path.join(my_dir, 'js', 'efficiency_nodes.js')
+destination_dir = os.path.join(comfy_dir, 'web', 'extensions', 'efficiency-nodes-comfyui')
+destination_path = os.path.join(destination_dir, 'efficiency_nodes.js')
+
+# Create the destination directory if it doesn't exist
+os.makedirs(destination_dir, exist_ok=True)
+
+# Copy the file
+shutil.copy2(source_path, destination_path)
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Establish a websocket connection to communicate with "efficiency-nodes.js" under:
+# ComfyUI\web\extensions\efficiency-nodes-comfyui\
+import websockets
+import asyncio
+import threading
+import base64
+from io import BytesIO
+from torchvision import transforms
+
+latest_image = list()
+connected_client = None
+websocket_status = True
+
+def handle_websocket_failure():
+    global websocket_status
+    if websocket_status:  # Ensures the message is printed only once
+        websocket_status = False
+        print(f"\r\033[33mEfficiency Nodes Warning:\033[0m Websocket connection failure.\n"
+              f"Live-generated preview images from the KSampler (Efficient) may not be cleared correctly. "
+              f"This can lead to extra images appearing in the node's preview results when live generation "
+              f"preview is enabled and vae decoding is set to 'true`.")
+
+async def server_logic(websocket, path):
+    global latest_image, connected_client, websocket_status
+
+    # If websocket_status is False, set latest_image to an empty list
+    if not websocket_status:
+        latest_image = list()
+
+    # Assign the connected client
+    connected_client = websocket
+
+    try:
+        async for message in websocket:
+            # If not a command, treat it as image data
+            if not message.startswith('{'):
+                image_data = base64.b64decode(message.split(",")[1])
+                image = Image.open(BytesIO(image_data))
+                latest_image = pil2tensor(image)
+    except (websockets.exceptions.ConnectionClosedError, asyncio.exceptions.CancelledError):
+        handle_websocket_failure()
+    except Exception:
+        handle_websocket_failure()
+
+def run_server():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        start_server = websockets.serve(server_logic, "127.0.0.1", 8288)
+        loop.run_until_complete(start_server)
+        loop.run_forever()
+    except Exception:  # Catch all exceptions
+        handle_websocket_failure()
+
+def get_latest_image():
+    return latest_image
+
+# Function to send commands to frontend
+def send_command_to_frontend(startListening=False, maxCount=0, sendBlob=False):
+    global connected_client, websocket_status
+    if connected_client and websocket_status:
+        try:
+            asyncio.run(connected_client.send(json.dumps({
+                'startProcessing': startListening,
+                'maxCount': maxCount,
+                'sendBlob': sendBlob
+            })))
+        except Exception:
+            handle_websocket_failure()
+
+# Start the WebSocket server in a separate thread
+server_thread = threading.Thread(target=run_server)
+server_thread.daemon = True
+server_thread.start()
