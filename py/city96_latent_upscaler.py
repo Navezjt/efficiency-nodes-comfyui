@@ -1,5 +1,4 @@
 # https://github.com/city96/SD-Latent-Upscaler
-# check if any issues on weights and updates and local install for same
 import torch
 import torch.nn as nn
 from safetensors.torch import load_file
@@ -80,15 +79,4 @@ class LatentUpscaler:
 		lt = samples["samples"]
 		lt = model(lt)
 		del model
-		if "noise_mask" in samples.keys():
-			# expand the noise mask to the same shape as the latent
-			mask = torch.nn.functional.interpolate(samples['noise_mask'], scale_factor=float(scale_factor), mode='bicubic') 
-			return ({"samples": lt, "noise_mask": mask},)
 		return ({"samples": lt},)
-NODE_CLASS_MAPPINGS = {
-	"LatentUpscaler": LatentUpscaler,
-}
-
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "LatentUpscaler": "EFF_C Latent Upscaler"
-}		

@@ -311,11 +311,3 @@ class NNLatentUpscale:
 
         self.model.to(device=model_management.vae_offload_device())
         return ({"samples": latent_out},)
-
-NODE_CLASS_MAPPINGS = {
-    "NNLatentUpscale": NNLatentUpscale
-}
-
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "NNlLatentUpscale": "EFF Latent Upscale"
-}

@@ -1,14 +1,10 @@
-✨🍬Planning to help this branch stay alive and any issues will try to solve or fix .. But will be slow as I run many github repos . before raising any issues, please update comfyUI to the latest and esnure all the required packages are updated ass well. Share your workflow in issues to retest same at our end and update the patch.🍬
+# ⚠️ **IMPORTANT:** This repository is no longer receiving updates or maintenance. For ongoing development, check out the fork of this project maintained by [jags111](https://github.com/jags111/efficiency-nodes-comfyui).
 
 
-<b> Efficiency Nodes for ComfyUI Version 2.0+
+Efficiency Nodes for ComfyUI
 =======
 ### A collection of <a href="https://github.com/comfyanonymous/ComfyUI" >ComfyUI</a> custom nodes to help streamline workflows and reduce total node count.
-## Releases
-
-Please check out our WIKI for any use cases and new developments including workflow and settings.<br>
-[Efficiency Nodes Wiki](https://github.com/jags111/efficiency-nodes-comfyui/wiki)<br>
-
+## [Direct Download Link](https://github.com/LucianoCirino/efficiency-nodes-comfyui/releases/download/v2.0/efficiency-nodes-comfyui.7z)
 ### Nodes:
 <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
 <details>
@@ -72,7 +68,6 @@ Please check out our WIKI for any use cases and new developments including workf
         <li>Node that the gives user the ability to upscale KSampler results through variety of different methods.</li>
         <li>Comes out of the box with popular Neural Network Latent Upscalers such as Ttl's <a href="https://github.com/Ttl/ComfyUi_NNLatentUpscale">ComfyUi_NNLatentUpscale</a> and City96's <a href="https://github.com/city96/SD-Latent-Upscaler">SD-Latent-Upscaler</a>.</li>
         <li>Supports ControlNet guided latent upscaling. <i> (You must have Fannovel's <a href="https://github.com/Fannovel16/comfyui_controlnet_aux">comfyui_controlnet_aux</a> installed to unlock this feature)</i></li>
-        <li> Local models---The node pulls the required files from huggingface hub by default. You can create a models folder and place the modules there if you have a flaky connection or prefer to use it completely offline, it will load them locally instead. The path should be: ComfyUI/custom_nodes/efficiency-nodes-comfyui/models; Alternatively, just clone the entire HF repo to it: (git clone https://huggingface.co/city96/SD-Latent-Upscaler)   to ComfyUI/custom_nodes/efficiency-nodes-comfyui/models</li>
     </ul>
     <p align="center">
       <img src="https://github.com/LucianoCirino/efficiency-nodes-media/blob/main/images/nodes/HighResFix%20-%20Node%20Example.gif" width="1080">
@@ -150,102 +145,26 @@ Please check out our WIKI for any use cases and new developments including workf
 
 </details>
 
-<!-------------------------------------------------------------------------------------------------------------------------------------------------------->
-<details>
-    <summary><b>Latent Upscale nodes</b></summary>
-<ul>
-    <li>Forked from NN latent this node provides some remarkable neural enhancement to the latents making scaling a cool task</li>
-    <li>Both NN latent upscale and Latent upscaler does the Latent improvemnet in remarkable ways. If you face any issue regarding same please install the nodes from this link([SD-Latent-Upscaler](https://github.com/city96/SD-Latent-Upscaler) and the NN latent upscale from [ComfyUI_NNlatentUpscale](https://github.com/Ttl/ComfyUi_NNLatentUpscale) </li>
-    
-</ul>
-<p align="center">
-  <img src="images/2023-12-08_19-53-37.png" width="320">
-  &nbsp; &nbsp;
-  <img src="images/2023-12-08_19-54-11.png" width="320">
-  &nbsp; &nbsp;
-  
-</p>
-
-</details>
-
 ## Workflow Examples:
-
-Kindly load all PNG files in same name in the (workflow driectory) to comfyUI to get all this workflows. The PNG files have the json embedded into them and are easy to drag and drop !<br>
-
 1. HiRes-Fixing<br>
-   [<img src="https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/HiResfix_workflow.png" width="800">](https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/HiResfix_workflow.png)<br>
+   [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/HiResFix%20Script.png" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/HiResFix%20Script.png)<br>
 
 2. SDXL Refining & **Noise Control Script**<br>
-   [<img src="https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/SDXL_base_refine_noise_workflow.png" width="800">](https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/SDXL_base_refine_noise_workflow.png)<br>
+   [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/SDXL%20Refining%20%26%20Noise%20Control%20Script.png" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/SDXL%20Refining%20%26%20Noise%20Control%20Script.png)<br>
 
 3. **XY Plot**: LoRA <code>model_strength</code> vs <code>clip_strength</code><br>
-   [<img src="https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/Eff_XYPlot%20-%20LoRA%20Model%20vs%20Clip%20Strengths01.png" width="800">](https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/Eff_XYPlot%20-%20LoRA%20Model%20vs%20Clip%20Strengths01.png)<br>
+   [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20LoRA%20Model%20vs%20Clip%20Strengths.png" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20LoRA%20Model%20vs%20Clip%20Strengths.png)<br>
 
 4. Stacking Scripts: **XY Plot** + **Noise Control** + **HiRes-Fix**<br>
    [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20Seeds%20vs%20Checkpoints%20%26%20Stacked%20Scripts.png" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20Seeds%20vs%20Checkpoints%20%26%20Stacked%20Scripts.png)<br>
 
 5. Stacking Scripts: **AnimateDiff** + **HiRes-Fix** (with ControlNet)<br>
-  [<img src="https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/eff_animatescriptWF001.gif" width="800">](https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/eff_animatescriptWF001.gif)<br>
-
-6. SVD workflow: **Stable Video Diffusion** + *Kohya Hires** (with latent control)<br>
-  <br>
+   [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/AnimateDiff%20%26%20HiResFix%20Scripts.gif" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/AnimateDiff%20%26%20HiResFix%20Scripts.gif)<br>
 
 
 ### Dependencies
 The python library <i><a href="https://github.com/danthedeckie/simpleeval" >simpleeval</a></i> is required to be installed if you wish to use the **Simpleeval Nodes**.
 <pre>pip install simpleeval</pre>
-Also can be installed with a simple pip command <br>
-'pip install simpleeval'
-
-A single file library for easily adding evaluatable expressions into python projects. Say you want to allow a user to set an alarm volume, which could depend on the time of day, alarm level, how many previous alarms had gone off, and if there is music playing at the time.
-
-check Notes for more information.
 
 ## **Install:**
 To install, drop the "_**efficiency-nodes-comfyui**_" folder into the "_**...\ComfyUI\ComfyUI\custom_nodes**_" directory and restart UI.
-
-## Todo
-
-[ ] Add guidance to notebook
-
-
-# Comfy Resources
-
-**Efficiency Linked Repos**
-- [BlenderNeko ComfyUI_ADV_CLIP_emb](https://github.com/BlenderNeko/ComfyUI_ADV_CLIP_emb)  by@BlenderNeko
-- [Chrisgoringe cg-noise](https://github.com/chrisgoringe/cg-noise)  by@Chrisgoringe
-- [pythongosssss ComfyUI-Custom-Scripts](https://github.com/pythongosssss/ComfyUI-Custom-Scripts)  by@pythongosssss
-- [shiimizu ComfyUI_smZNodes](https://github.com/shiimizu/ComfyUI_smZNodes)  by@shiimizu
-- [LEv145_images-grid-comfyUI-plugin](https://github.com/LEv145/images-grid-comfy-plugin))  by@LEv145
-- [ltdrdata-ComfyUI-Inspire-Pack](https://github.com/ltdrdata/ComfyUI-Inspire-Pack) by@ltdrdata
-- [pythongosssss-ComfyUI-custom-Scripts](https://github.com/pythongosssss/ComfyUI-Custom-Scripts) by@pythongosssss
-- [RockOfFire-ComfyUI_Comfyroll_CustomNodes](https://github.com/RockOfFire/ComfyUI_Comfyroll_CustomNodes) by@RockOfFire 
-
-**Guides**:
-- [Official Examples (eng)](https://comfyanonymous.github.io/ComfyUI_examples/)- 
-- [ComfyUI Community Manual (eng)](https://blenderneko.github.io/ComfyUI-docs/) by @BlenderNeko
-
-- **Extensions and Custom Nodes**:  
-- [Plugins for Comfy List (eng)](https://github.com/WASasquatch/comfyui-plugins) by @WASasquatch
-- [ComfyUI tag on CivitAI (eng)](https://civitai.com/tag/comfyui)-   
-- [Tomoaki's personal Wiki (jap)](https://comfyui.creamlab.net/guides/) by @tjhayasaka
-
-  ## Support
-If you create a cool image with our nodes, please show your result and message us on twitter at @jags111 or @NeuralismAI .
-
-You can join the <a href="https://discord.gg/vNVqT82W" alt="Neuralism Discord"> NEURALISM AI DISCORD </a> or <a href="https://discord.gg/UmSd4qyh" alt =Jags AI Discord > JAGS AI DISCORD </a> 
-Share your work created with this model. Exchange experiences and parameters. And see more interesting custom workflows.
-
-Support us in Patreon for more future models and new versions of AI notebooks.
-- tip me on <a href="https://www.patreon.com/jags111"> [patreon]</a>
-
- My buymeacoffee.com pages and links are here and if you feel you are happy with my work just buy me a coffee !
-
- <a href="https://www.buymeacoffee.com/jagsAI"> coffee for JAGS AI</a> 
-
-Thank you for being awesome!
-
-<img src = "images/ComfyUI_temp_vpose_00005_.png" width = "50%"> 
-
-<!-- end support-pitch -->
-
