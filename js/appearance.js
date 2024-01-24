@@ -77,9 +77,9 @@ const ext = {
     name: "efficiency.appearance",
 
     nodeCreated(node) {
-        const title = node.getTitle();
-        if (NODE_COLORS.hasOwnProperty(title)) {
-            let colorKey = NODE_COLORS[title];
+        const nclass = node.comfyClass;
+        if (NODE_COLORS.hasOwnProperty(nclass)) {
+            let colorKey = NODE_COLORS[nclass];
 
             if (colorKey === "random") {
                 // Check for a valid color key before popping
