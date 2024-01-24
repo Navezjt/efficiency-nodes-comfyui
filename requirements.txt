@@ -1,1 +1,2 @@
+clip-interrogator
 simpleeval

@@ -18,7 +18,7 @@ const NODE_WIDGET_MAP = {
 const SPECIFIC_WIDTH = 325; // Set to desired width
 
 function setNodeWidthForMappedTitles(node) {
-    if (NODE_WIDGET_MAP[node.getTitle()]) {
+     if (NODE_WIDGET_MAP[node.comfyClass]) {
         node.setSize([SPECIFIC_WIDTH, node.size[1]]);
     }
 }

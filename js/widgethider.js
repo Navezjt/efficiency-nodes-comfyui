@@ -123,7 +123,7 @@ function handleInputModeWidgetsVisibility(node, inputModeValue) {
         }
     };
 
-    const inputModeVisibilityMap = nodeVisibilityMap[node.getTitle()];
+    const inputModeVisibilityMap = nodeVisibilityMap[node.comfyClass];
     
     if (!inputModeVisibilityMap || !inputModeVisibilityMap[inputModeValue]) return;
 
@@ -319,7 +319,7 @@ const nodeWidgetHandlers = {
 // In the main function where widgetLogic is called
 function widgetLogic(node, widget) {
     // Retrieve the handler for the current node title and widget name
-    const handler = nodeWidgetHandlers[node.getTitle()]?.[widget.name];
+    const handler = nodeWidgetHandlers[node.comfyClass]?.[widget.name];
     if (handler) {
         handler(node, widget);
     }
