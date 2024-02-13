@@ -184,7 +184,7 @@ Kindly load all PNG files in same name in the (workflow driectory) to comfyUI to
 4. Stacking Scripts: **XY Plot** + **Noise Control** + **HiRes-Fix**<br>
    [<img src="https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20Seeds%20vs%20Checkpoints%20%26%20Stacked%20Scripts.png" width="800">](https://github.com/LucianoCirino/efficiency-nodes-comfyui/blob/v2.0/workflows/XYPlot%20-%20Seeds%20vs%20Checkpoints%20%26%20Stacked%20Scripts.png)<br>
 
-5. Stacking Scripts: **AnimateDiff** + **HiRes-Fix** (with ControlNet)<br>
+5. Stacking Scripts:  **HiRes-Fix** (with ControlNet)<br>
   [<img src="https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/eff_animatescriptWF001.gif" width="800">](https://github.com/jags111/efficiency-nodes-comfyui/blob/main/workflows/eff_animatescriptWF001.gif)<br>
 
 6. SVD workflow: **Stable Video Diffusion** + *Kohya Hires** (with latent control)<br>

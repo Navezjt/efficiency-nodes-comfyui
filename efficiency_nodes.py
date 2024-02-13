@@ -4204,7 +4204,8 @@ NODE_CLASS_MAPPINGS = {
 }
 
 ########################################################################################################################
-# Add AnimateDiff Script based off Kosinkadink's Nodes (https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved)
+# Add AnimateDiff Script based off Kosinkadink's Nodes (https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved) deprecated
+"""
 if os.path.exists(os.path.join(custom_nodes_dir, "ComfyUI-AnimateDiff-Evolved")):
     printout = "Attempting to add 'AnimatedDiff Script' Node (ComfyUI-AnimateDiff-Evolved add-on)..."
     print(f"{message('Efficiency Nodes:')} {printout}", end="")
@@ -4244,6 +4245,7 @@ if os.path.exists(os.path.join(custom_nodes_dir, "ComfyUI-AnimateDiff-Evolved"))
 
     except Exception:
         print(f"\r{message('Efficiency Nodes:')} {printout}{error('Failed!')}")
+        """
 
 ########################################################################################################################
 # Simpleeval Nodes (https://github.com/danthedeckie/simpleeval)
