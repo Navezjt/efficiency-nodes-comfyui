@@ -1,1 +1,2 @@
-https://github.com/LucianoCirino/efficiency-nodes-comfyui
+- https://github.com/jags111/efficiency-nodes-comfyui
+- https://github.com/LucianoCirino/efficiency-nodes-comfyui
